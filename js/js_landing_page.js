@@ -99,27 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
         observeScrollAnimations();
     }
 
-    // ================= 5. Render Tim =================
-    function renderTeam() {
-        const section = document.getElementById('tim');
-        const grid = document.getElementById('teamGrid');
-        if (!grid || !section) return;
-        const team = getData('nami_team', []);
-        if (team.length === 0) {
-            section.style.display = 'none';
-            return;
-        }
-        section.style.display = 'block';
-        grid.innerHTML = team.map((m, i) => `
-            <div class="card team-card animate-on-scroll" style="transition-delay: ${i * 0.15}s;">
-                <img class="team-photo" src="${escapeHtml(m.photo)}" alt="${escapeHtml(m.name)}">
-                <h3>${escapeHtml(m.name)}</h3>
-                <span class="team-role">${escapeHtml(m.role)}</span>
-                <p class="team-desc">${escapeHtml(m.desc || '')}</p>
-            </div>
-        `).join('');
-        observeScrollAnimations();
-    }
 
     function escapeHtml(str) {
         if (!str) return '';
@@ -146,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderProducts();
     renderVideos();
-    renderTeam();
     observeScrollAnimations();
 
     // ================= 7. Bunga Jatuh =================
