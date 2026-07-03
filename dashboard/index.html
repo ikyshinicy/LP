@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Nami Craft Sorong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Memanggil file CSS Khusus Admin -->
+    <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Nami Admin</h2>
+            <p>Control Panel</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="nav-item active"><a href="#" class="nav-link"><i class="fas fa-box"></i> Kelola Produk</a></li>
+            <!-- Link untuk kembali ke halaman utama -->
+            <li class="nav-item"><a href="index.html" class="nav-link" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Website</a></li>
+            <li class="nav-item" style="margin-top: 50px;"><a href="#" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <h2 style="font-size: 1.5rem;">Kelola Konten Website</h2>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Perbarui produk dan layanan Nami Craft</p>
+            </div>
+            <div class="user-info">
+                <div style="text-align: right;">
+                    <strong style="font-size: 0.9rem; display: block;">Ibu Ratna</strong>
+                    <span style="font-size: 0.8rem; color: var(--text-light);">Administrator</span>
+                </div>
+                <div class="user-avatar">R</div>
+            </div>
+        </header>
+
+        <div class="card" style="max-width: 800px;">
+            <div class="card-header">
+                <h3><i class="fas fa-edit"></i> Form Update Konten Section</h3>
+            </div>
+            <form id="updateContentForm" onsubmit="saveContent(event)">
+                <div class="form-group">
+                    <label>Pilih Bagian yang Ingin Diubah</label>
+                    <select class="form-control" id="sectionSelect" onchange="loadCurrentContent()">
+                        <option value="heroTitle">Teks Hero (Header Atas)</option>
+                        <option value="heroDesc">Deskripsi Hero</option>
+                        <option value="aboutTitle">Judul "Tentang Kami"</option>
+                        <option value="aboutDesc">Isi "Tentang Kami"</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Isi Konten Baru</label>
+                    <textarea class="form-control" id="contentInput"></textarea>
+                </div>
+
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="loadCurrentContent()">Reset</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                </div>
+                
+                <div id="successMsg" style="display: none; color: var(--success); margin-top: 15px; font-weight: 500; text-align: right;">
+                    <i class="fas fa-check-circle"></i> Berhasil disimpan! Cek Landing Page.
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Memanggil file JS Khusus Admin -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
