@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nami Craft Sorong | Estetika Kerajinan Papua</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- Memanggil file CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Container Bunga Bergerak (Background) -->
     <div id="flower-container"></div>
 
-    <!-- Header -->
     <header>
         <a href="#" class="brand-logo">Nami Craft</a>
         <nav>
@@ -21,24 +18,22 @@
                 <li><a href="#beranda">Beranda</a></li>
                 <li><a href="#tentang">Tentang Kami</a></li>
                 <li><a href="#koleksi">Koleksi</a></li>
+                <li><a href="#tim">Tim Kami</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="beranda">
         <div class="hero-content">
             <h1 id="display_heroTitle">Spesialis Buket Premium di Kota Sorong</h1>
             <p id="display_heroDesc">Berikan kejutan tak terlupakan untuk orang terkasih. Kami menghadirkan kreasi buket bunga, uang, dan snack estetik dengan ciri khas <i>Korean Wrapping</i> yang cantik dan elegan.</p>
             <a href="#koleksi" class="btn">Pesan Sekarang</a>
         </div>
-        
         <div class="hero-image-wrapper">
             <div class="hero-image" style="background-image: url('https://images.unsplash.com/photo-1591886960571-74d43a9d4166?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
         </div>
     </section>
 
-    <!-- Scrolling Text Marquee -->
     <div class="marquee">
         <div class="marquee-content">
             <span>✨ KOREAN WRAPPING</span>
@@ -54,57 +49,35 @@
         </div>
     </div>
 
-    <!-- About Section -->
     <section class="about animate-on-scroll" id="tentang">
         <h2 id="display_aboutTitle">Tentang Nami Craft</h2>
         <p id="display_aboutDesc">Didirikan pada tahun 2019 oleh Ibu Ratna, Nami Craft berawal dari inovasi dan jeli melihat peluang di Kota Sorong. Kami hadir untuk melengkapi momen spesial Anda—mulai dari wisuda, ulang tahun, hingga <i>anniversary</i>. Dengan detail <i>Korean Wrapping</i> yang kekinian, setiap buket dirangkai penuh cinta untuk menyampaikan perasaan Anda kepada sosok yang berharga.</p>
     </section>
 
-    <!-- Collections Section -->
+    <!-- Collections Section (dynamic, dikelola via admin) -->
     <section class="collections" id="koleksi">
         <h2 class="animate-on-scroll">Layanan & Kreasi Kami</h2>
-        <div class="grid">
-            <!-- Product 1 -->
-            <div class="card animate-on-scroll">
-                <div class="card-img-wrapper">
-                    <div class="card-img"></div>
-                </div>
-                <div class="card-content">
-                    <h3>Buket Bunga (Florist)</h3>
-                    <p style="font-size: 0.95rem; color: #666;">Rangkaian bunga segar atau artifisial dengan kertas wrapping premium bernuansa pastel.</p>
-                </div>
-            </div>
-            <!-- Product 2 -->
-            <div class="card animate-on-scroll" style="transition-delay: 0.2s;">
-                <div class="card-img-wrapper">
-                    <div class="card-img"></div>
-                </div>
-                <div class="card-content">
-                    <h3>Buket Uang (Money Bouquet)</h3>
-                    <p style="font-size: 0.95rem; color: #666;">Hadiah praktis yang disulap menjadi elegan dan mewah. Tersedia berbagai nominal dan desain.</p>
-                </div>
-            </div>
-            <!-- Product 3 -->
-            <div class="card animate-on-scroll" style="transition-delay: 0.4s;">
-                <div class="card-img-wrapper">
-                    <div class="card-img"></div>
-                </div>
-                <div class="card-content">
-                    <h3>Buket Snack & Custom</h3>
-                    <p style="font-size: 0.95rem; color: #666;">Paduan jajanan favorit atau hadiah custom lainnya yang dibalut estetik untuk si dia.</p>
-                </div>
-            </div>
-        </div>
+        <div class="grid" id="productGrid"></div>
     </section>
 
-    <!-- Footer -->
+    <!-- Video Content Section (dynamic, muncul kalau ada video) -->
+    <section class="videos-section" id="konten" style="display:none;">
+        <h2 class="animate-on-scroll">Konten Kami</h2>
+        <div class="video-grid" id="videoGrid"></div>
+    </section>
+
+    <!-- Our Team Section (dynamic, muncul kalau ada anggota tim) -->
+    <section class="team-section" id="tim" style="display:none;">
+        <h2 class="animate-on-scroll">Tim Kami</h2>
+        <div class="grid" id="teamGrid"></div>
+    </section>
+
     <footer>
         <h2 id="footerTrigger">Nami Craft Sorong</h2>
         <p style="font-size: 0.95rem; margin-bottom: 20px; color: #ccc;">Dibuat dengan cinta di Sorong, Papua Barat Daya.</p>
         <p style="font-size: 0.8rem; color: #888;">&copy; 2026 Nami Craft Sorong. All Rights Reserved.</p>
     </footer>
 
-    <!-- Memanggil file JS -->
     <script src="js/js_landing_page.js"></script>
 </body>
 </html>
