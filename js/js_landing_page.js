@@ -48,4 +48,28 @@ document.addEventListener('DOMContentLoaded', () => {
         logo.addEventListener('mouseover', () => logo.textContent = "✨ Nami Craft ✨");
         logo.addEventListener('mouseout', () => logo.textContent = "Nami Craft");
     }
+
+    // 5. Hidden Admin Access - Triple click pada judul footer
+    const footerTrigger = document.getElementById('footerTrigger');
+    if (footerTrigger) {
+        let clickCount = 0;
+        let clickTimer = null;
+
+        footerTrigger.style.cursor = 'default';
+        footerTrigger.addEventListener('click', () => {
+            clickCount++;
+
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 800); // reset kalau klik ke-2/3 tidak menyusul dalam 0.8 detik
+            }
+
+            if (clickCount === 3) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                window.location.href = 'login.html';
+            }
+        });
+    }
 });
