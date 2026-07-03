@@ -1,6 +1,6 @@
 // ================= UPLOAD ASSET KE CLOUDFLARE R2 =================
 // GANTI dua nilai di bawah ini setelah worker-nya dibuat di dashboard Cloudflare:
-const UPLOAD_WORKER_URL = 'https://nami-craft-upload.NAMA-SUBDOMAIN-KAMU.workers.dev';
+const UPLOAD_WORKER_URL = 'https://pub-040ce5a986cf417490344efed27c258d.r2.dev';
 const UPLOAD_API_KEY = 'GANTI_DENGAN_API_KEY_RAHASIA_KAMU';
 
 async function uploadAsset(fileInputId, targetInputId, statusId) {
