@@ -22,7 +22,10 @@ h1, h2, h3, .brand-logo { font-family: 'Playfair Display', serif; }
 header, section, footer, .marquee { position: relative; z-index: 10; }
 
 /* Header */
-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: sticky; top: 0; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background-color: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    header { background-color: rgba(255, 255, 255, 0.98); }
+}
 .brand-logo { font-size: 1.8rem; font-weight: 600; color: var(--primary-color); text-decoration: none; letter-spacing: 1px; transition: transform 0.3s ease; }
 .brand-logo:hover { transform: scale(1.05); }
 nav ul { list-style: none; display: flex; gap: 30px; }
