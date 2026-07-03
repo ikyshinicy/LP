@@ -1,7 +1,9 @@
-// ================= UPLOAD FOTO/VIDEO (versi lokal, untuk demo/presentasi) =================
-// Catatan: ini menyimpan file langsung sebagai data (base64) di browser,
-// jadi TIDAK butuh Cloudflare Worker / server apapun. Cukup untuk presentasi.
-function uploadAsset(fileInputId, targetInputId, statusId) {
+// ================= UPLOAD ASSET KE CLOUDFLARE R2 =================
+// GANTI dua nilai di bawah ini setelah worker-nya dibuat di dashboard Cloudflare:
+const UPLOAD_WORKER_URL = 'https://nami-craft-upload.NAMA-SUBDOMAIN-KAMU.workers.dev';
+const UPLOAD_API_KEY = 'GANTI_DENGAN_API_KEY_RAHASIA_KAMU';
+
+async function uploadAsset(fileInputId, targetInputId, statusId) {
     const fileInput = document.getElementById(fileInputId);
     const targetInput = document.getElementById(targetInputId);
     const status = document.getElementById(statusId);
@@ -13,21 +15,29 @@ function uploadAsset(fileInputId, targetInputId, statusId) {
         return;
     }
 
-    status.textContent = 'Memproses...';
+    status.textContent = 'Mengupload ke Cloudflare...';
     status.style.color = '#888';
 
-    const reader = new FileReader();
-    reader.onload = () => {
-        targetInput.value = reader.result; // hasil: data:image/...;base64,...
-        status.textContent = '✓ Berhasil dipasang';
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const res = await fetch(UPLOAD_WORKER_URL, {
+            method: 'POST',
+            headers: { 'X-API-Key': UPLOAD_API_KEY },
+            body: formData
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Upload gagal');
+
+        targetInput.value = data.url;
+        status.textContent = '✓ Tersimpan di Cloudflare';
         status.style.color = 'var(--success)';
         fileInput.value = '';
-    };
-    reader.onerror = () => {
-        status.textContent = '✗ Gagal membaca file';
+    } catch (err) {
+        status.textContent = '✗ ' + err.message;
         status.style.color = 'var(--danger)';
-    };
-    reader.readAsDataURL(file);
+    }
 }
 
 // ================= PANEL SWITCHING (Sidebar) =================
