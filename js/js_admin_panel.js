@@ -1,4 +1,33 @@
-// ================= TEKS HERO / ABOUT (fitur lama, tetap dipertahankan) =================
+// ================= PANEL SWITCHING (Sidebar) =================
+const panelMeta = {
+    dashboard: { title: 'Dashboard', desc: 'Ringkasan pengelolaan konten website' },
+    hero: { title: 'Hero & Tentang', desc: 'Ubah teks judul utama dan deskripsi tentang toko' },
+    produk: { title: 'Kelola Produk', desc: 'Tambah, ubah, atau hapus produk yang tampil di landing page' },
+    video: { title: 'Kelola Video', desc: 'Tambah video konten yang tampil otomatis di landing page' }
+};
+
+function showPanel(panelId) {
+    document.querySelectorAll('.admin-panel').forEach(p => p.style.display = 'none');
+    const target = document.getElementById('panel-' + panelId);
+    if (target) target.style.display = 'block';
+
+    document.querySelectorAll('.nav-item[data-panel]').forEach(item => item.classList.remove('active'));
+    const activeItem = document.querySelector('.nav-item[data-panel="' + panelId + '"]');
+    if (activeItem) activeItem.classList.add('active');
+
+    const meta = panelMeta[panelId];
+    if (meta) {
+        document.getElementById('topbarTitle').textContent = meta.title;
+        document.getElementById('topbarDesc').textContent = meta.desc;
+    }
+
+    // Refresh data setiap kali panel dibuka
+    if (panelId === 'hero' && document.getElementById('sectionSelect')) loadCurrentContent();
+    if (panelId === 'produk') renderProductList();
+    if (panelId === 'video') renderVideoList();
+}
+
+// ================= TEKS HERO / ABOUT =================
 const defaultContent = {
     heroTitle: "Spesialis Buket Premium di Kota Sorong",
     heroDesc: "Berikan kejutan tak terlupakan untuk orang terkasih. Kami menghadirkan kreasi buket bunga, uang, dan snack estetik dengan ciri khas Korean Wrapping yang cantik dan elegan.",
@@ -170,75 +199,7 @@ function resetVideoForm() {
     document.getElementById('vidEditId').value = '';
 }
 
-// ================= KELOLA TIM =================
-function renderTeamList() {
-    const list = document.getElementById('teamList');
-    if (!list) return;
-    const team = getArray('nami_team');
-    if (team.length === 0) {
-        list.innerHTML = '<p style="color: var(--text-light); font-size: 0.9rem;">Belum ada anggota tim. Section "Tim Kami" akan otomatis disembunyikan di landing page.</p>';
-        return;
-    }
-    list.innerHTML = team.map(m => `
-        <div style="display:flex; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
-            <img src="${escapeHtml(m.photo)}" style="width:50px; height:50px; object-fit:cover; border-radius:50%;" onerror="this.style.opacity=0.3">
-            <div style="flex:1;">
-                <strong style="font-size:0.9rem;">${escapeHtml(m.name)}</strong>
-                <div style="font-size:0.8rem; color:var(--primary-color);">${escapeHtml(m.role)}</div>
-            </div>
-            <button type="button" class="btn" style="background:#eee; padding:6px 12px; font-size:0.8rem;" onclick="editTeamMember('${m.id}')"><i class="fas fa-pen"></i></button>
-            <button type="button" class="btn" style="background:#fde8e8; color:var(--danger); padding:6px 12px; font-size:0.8rem;" onclick="deleteTeamMember('${m.id}')"><i class="fas fa-trash"></i></button>
-        </div>
-    `).join('');
-}
-
-function saveTeamMember(e) {
-    e.preventDefault();
-    const editId = document.getElementById('teamEditId').value;
-    const team = getArray('nami_team');
-    const data = {
-        name: document.getElementById('teamName').value,
-        role: document.getElementById('teamRole').value,
-        desc: document.getElementById('teamDesc').value,
-        photo: document.getElementById('teamPhoto').value
-    };
-    if (editId) {
-        const idx = team.findIndex(m => m.id === editId);
-        if (idx > -1) team[idx] = { id: editId, ...data };
-    } else {
-        team.push({ id: generateId(), ...data });
-    }
-    setArray('nami_team', team);
-    resetTeamForm();
-    renderTeamList();
-}
-
-function editTeamMember(id) {
-    const m = getArray('nami_team').find(m => m.id === id);
-    if (!m) return;
-    document.getElementById('teamEditId').value = m.id;
-    document.getElementById('teamName').value = m.name;
-    document.getElementById('teamRole').value = m.role;
-    document.getElementById('teamDesc').value = m.desc || '';
-    document.getElementById('teamPhoto').value = m.photo;
-    document.getElementById('teamForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-function deleteTeamMember(id) {
-    if (!confirm('Hapus anggota tim ini?')) return;
-    setArray('nami_team', getArray('nami_team').filter(m => m.id !== id));
-    renderTeamList();
-}
-
-function resetTeamForm() {
-    document.getElementById('teamForm').reset();
-    document.getElementById('teamEditId').value = '';
-}
-
 // ================= INISIALISASI SAAT HALAMAN ADMIN DIMUAT =================
 window.onload = function () {
-    if (document.getElementById('sectionSelect')) loadCurrentContent();
-    renderProductList();
-    renderVideoList();
-    renderTeamList();
+    showPanel('produk'); // panel default saat admin login
 };
