@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'default-3', name: 'Buket Snack & Custom', desc: 'Paduan jajanan favorit atau hadiah custom lainnya yang dibalut estetik untuk si dia.', price: 'Mulai dari Rp 120.000', image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' }
     ];
 
+    const WA_NUMBER = '6282128728726';
+    function buildWaLink(productName) {
+        const text = `Halo Nami Craft, saya ingin pesan ${productName}`;
+        return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
     function getData(key, fallback) {
         try {
             const raw = localStorage.getItem(key);
@@ -46,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="font-size: 0.95rem; color: #666;">${escapeHtml(p.desc)}</p>
                     <span class="price-tag">${escapeHtml(p.price)}</span>
                     <span class="price-note">Harga dapat berubah sewaktu-waktu, hubungi kami untuk info terbaru</span>
+                    <a href="${buildWaLink(p.name)}" target="_blank" class="btn btn-wa" style="display:inline-block; margin-top:12px;">Pesan via WhatsApp</a>
                 </div>
             </div>
         `).join('');
