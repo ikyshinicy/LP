@@ -6,11 +6,14 @@
     <title>Admin Panel | Nami Craft Sorong</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Memanggil file CSS Khusus Admin -->
     <link rel="stylesheet" href="../css/admin_style.css">
 </head>
 <body>
+    <script>
+        if (sessionStorage.getItem('nami_admin_auth') !== 'true') {
+            window.location.href = '../login.html';
+        }
+    </script>
     <aside class="sidebar">
         <div class="sidebar-header">
             <h2>Nami Admin</h2>
@@ -19,9 +22,8 @@
         <ul class="nav-menu">
             <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
             <li class="nav-item active"><a href="#" class="nav-link"><i class="fas fa-box"></i> Kelola Produk</a></li>
-            <!-- Link untuk kembali ke halaman utama -->
             <li class="nav-item"><a href="../index.html" class="nav-link" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Website</a></li>
-            <li class="nav-item" style="margin-top: 50px;"><a href="#" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+            <li class="nav-item" style="margin-top: 50px;"><a href="#" class="nav-link text-danger" onclick="sessionStorage.removeItem('nami_admin_auth'); window.location.href='../login.html';"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </aside>
 
@@ -29,7 +31,7 @@
         <header class="topbar">
             <div>
                 <h2 style="font-size: 1.5rem;">Kelola Konten Website</h2>
-                <p style="color: var(--text-light); font-size: 0.9rem;">Perbarui produk dan layanan Nami Craft</p>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Perbarui produk, video, tim, dan layanan Nami Craft</p>
             </div>
             <div class="user-info">
                 <div style="text-align: right;">
@@ -40,10 +42,9 @@
             </div>
         </header>
 
+        <!-- ============ TEKS HERO / ABOUT ============ -->
         <div class="card" style="max-width: 800px;">
-            <div class="card-header">
-                <h3><i class="fas fa-edit"></i> Form Update Konten Section</h3>
-            </div>
+            <div class="card-header"><h3><i class="fas fa-edit"></i> Teks Hero & Tentang Kami</h3></div>
             <form id="updateContentForm" onsubmit="saveContent(event)">
                 <div class="form-group">
                     <label>Pilih Bagian yang Ingin Diubah</label>
@@ -54,25 +55,106 @@
                         <option value="aboutDesc">Isi "Tentang Kami"</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
                     <label>Isi Konten Baru</label>
                     <textarea class="form-control" id="contentInput"></textarea>
                 </div>
-
                 <div style="text-align: right; margin-top: 20px;">
                     <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="loadCurrentContent()">Reset</button>
                     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
                 </div>
-                
                 <div id="successMsg" style="display: none; color: var(--success); margin-top: 15px; font-weight: 500; text-align: right;">
                     <i class="fas fa-check-circle"></i> Berhasil disimpan! Cek Landing Page.
                 </div>
             </form>
         </div>
+
+        <!-- ============ KELOLA PRODUK ============ -->
+        <div class="card" style="max-width: 800px;">
+            <div class="card-header"><h3><i class="fas fa-box-open"></i> Kelola Produk</h3></div>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="prodEditId" value="">
+                <div class="form-group">
+                    <label>Nama Produk</label>
+                    <input type="text" class="form-control" id="prodName" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Singkat</label>
+                    <textarea class="form-control" id="prodDesc" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Harga (sementara / estimasi, boleh diubah kapan saja)</label>
+                    <input type="text" class="form-control" id="prodPrice" placeholder="Contoh: Mulai dari Rp 150.000" required>
+                </div>
+                <div class="form-group">
+                    <label>Link Foto Produk (Cloudflare/Cloudinary)</label>
+                    <input type="url" class="form-control" id="prodImage" placeholder="https://..." required>
+                </div>
+                <div style="text-align: right; margin-top: 15px;">
+                    <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetProductForm()">Batal Edit</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Produk</button>
+                </div>
+            </form>
+            <div id="productListWrap" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <div id="productList"></div>
+            </div>
+        </div>
+
+        <!-- ============ KELOLA VIDEO ============ -->
+        <div class="card" style="max-width: 800px;">
+            <div class="card-header"><h3><i class="fas fa-video"></i> Kelola Video Konten</h3></div>
+            <form id="videoForm" onsubmit="saveVideo(event)">
+                <input type="hidden" id="vidEditId" value="">
+                <div class="form-group">
+                    <label>Link Video (Cloudflare Stream/R2)</label>
+                    <input type="url" class="form-control" id="vidUrl" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label>Caption (opsional)</label>
+                    <input type="text" class="form-control" id="vidCaption" placeholder="Contoh: Proses rangkai buket wisuda">
+                </div>
+                <div style="text-align: right; margin-top: 15px;">
+                    <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetVideoForm()">Batal Edit</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Video</button>
+                </div>
+            </form>
+            <div id="videoListWrap" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <div id="videoList"></div>
+            </div>
+        </div>
+
+        <!-- ============ KELOLA TIM ============ -->
+        <div class="card" style="max-width: 800px;">
+            <div class="card-header"><h3><i class="fas fa-users"></i> Kelola Tim (Our Team)</h3></div>
+            <form id="teamForm" onsubmit="saveTeamMember(event)">
+                <input type="hidden" id="teamEditId" value="">
+                <div class="form-group">
+                    <label>Nama Anggota</label>
+                    <input type="text" class="form-control" id="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label>Jabatan</label>
+                    <input type="text" class="form-control" id="teamRole" placeholder="Contoh: Founder & Florist" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Singkat</label>
+                    <textarea class="form-control" id="teamDesc" placeholder="Ceritakan singkat tentang anggota ini"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Link Foto (Cloudflare/Cloudinary)</label>
+                    <input type="url" class="form-control" id="teamPhoto" placeholder="https://..." required>
+                </div>
+                <div style="text-align: right; margin-top: 15px;">
+                    <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetTeamForm()">Batal Edit</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Anggota</button>
+                </div>
+            </form>
+            <div id="teamListWrap" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <div id="teamList"></div>
+            </div>
+        </div>
     </main>
 
-    <!-- Memanggil file JS Khusus Admin -->
     <script src="../js/js_admin_panel.js"></script>
 </body>
 </html>
