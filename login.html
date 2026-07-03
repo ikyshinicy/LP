@@ -3,119 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | Nami Craft Sorong</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #F2D8D8 0%, #FAFAFA 100%);
-            padding: 20px;
-        }
-        .login-box {
-            background: #fff;
-            padding: 40px 35px;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 360px;
-            text-align: center;
-        }
-        .login-box h1 {
-            font-family: 'Playfair Display', serif;
-            color: #D4A373;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-        .login-box p.subtitle {
-            color: #8D8D8D;
-            font-size: 0.85rem;
-            margin-bottom: 25px;
-        }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 6px; }
-        .form-group input {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .form-group input:focus { border-color: #D4A373; }
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background-color: #D4A373;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.2s;
-        }
-        .btn-login:hover { background-color: #b58555; }
-        .error-msg {
-            color: #dc3545;
-            font-size: 0.85rem;
-            margin-top: 12px;
-            display: none;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #aaa;
-            text-decoration: none;
-        }
-        .back-link:hover { color: #D4A373; }
-    </style>
+    <title>Admin Panel | Nami Craft Sorong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/admin_style.css">
 </head>
 <body>
-    <div class="login-box">
-        <h1>Nami Craft</h1>
-        <p class="subtitle">Masuk ke Panel Admin</p>
-
-        <form id="loginForm">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" autocomplete="username" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" autocomplete="current-password" required>
-            </div>
-            <button type="submit" class="btn-login">Masuk</button>
-            <p class="error-msg" id="errorMsg">Username atau password salah.</p>
-        </form>
-
-        <a href="index.html" class="back-link">&larr; Kembali ke Website</a>
-    </div>
-
     <script>
-        // GANTI username & password di bawah ini sesuai keinginan Ibu Ratna
-        const ADMIN_USERNAME = "admin";
-        const ADMIN_PASSWORD = "namicraft2026";
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
-            const errorMsg = document.getElementById('errorMsg');
-
-            if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-                sessionStorage.setItem('nami_admin_auth', 'true');
-                window.location.href = 'dashboard/index.html';
-            } else {
-                errorMsg.style.display = 'block';
-            }
-        });
+        if (sessionStorage.getItem('nami_admin_auth') !== 'true') {
+            window.location.href = '../login.html';
+        }
     </script>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Nami Admin</h2>
+            <p>Control Panel</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item" data-panel="dashboard"><a href="#" class="nav-link" onclick="showPanel('dashboard'); return false;"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="nav-item" data-panel="hero"><a href="#" class="nav-link" onclick="showPanel('hero'); return false;"><i class="fas fa-edit"></i> Hero & Tentang</a></li>
+            <li class="nav-item active" data-panel="produk"><a href="#" class="nav-link" onclick="showPanel('produk'); return false;"><i class="fas fa-box"></i> Kelola Produk</a></li>
+            <li class="nav-item" data-panel="video"><a href="#" class="nav-link" onclick="showPanel('video'); return false;"><i class="fas fa-video"></i> Kelola Video</a></li>
+            <li class="nav-item"><a href="../index.html" class="nav-link" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Website</a></li>
+            <li class="nav-item" style="margin-top: 50px;"><a href="#" class="nav-link text-danger" onclick="sessionStorage.removeItem('nami_admin_auth'); window.location.href='../login.html';"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <h2 style="font-size: 1.5rem;" id="topbarTitle">Kelola Produk</h2>
+                <p style="color: var(--text-light); font-size: 0.9rem;" id="topbarDesc">Tambah, ubah, atau hapus produk yang tampil di landing page</p>
+            </div>
+            <div class="user-info">
+                <div style="text-align: right;">
+                    <strong style="font-size: 0.9rem; display: block;">Ibu Ratna</strong>
+                    <span style="font-size: 0.8rem; color: var(--text-light);">Administrator</span>
+                </div>
+                <div class="user-avatar">R</div>
+            </div>
+        </header>
+
+        <!-- ============ PANEL: DASHBOARD ============ -->
+        <div class="admin-panel" id="panel-dashboard" style="display:none;">
+            <div class="card" style="max-width: 800px;">
+                <div class="card-header"><h3><i class="fas fa-house"></i> Selamat Datang, Ibu Ratna 👋</h3></div>
+                <p style="color: var(--text-light); line-height: 1.7;">
+                    Gunakan menu di sidebar kiri untuk mengelola konten website Nami Craft:
+                </p>
+                <ul style="margin: 15px 0 0 20px; color: var(--text-light); line-height: 2;">
+                    <li><strong>Hero & Tentang</strong> — ubah teks judul utama dan deskripsi tentang toko.</li>
+                    <li><strong>Kelola Produk</strong> — tambah/ubah/hapus produk beserta harga & foto.</li>
+                    <li><strong>Kelola Video</strong> — tambah video konten yang tampil otomatis di landing page.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============ PANEL: HERO & TENTANG ============ -->
+        <div class="admin-panel" id="panel-hero" style="display:none;">
+            <div class="card" style="max-width: 800px;">
+                <div class="card-header"><h3><i class="fas fa-edit"></i> Teks Hero & Tentang Kami</h3></div>
+                <form id="updateContentForm" onsubmit="saveContent(event)">
+                    <div class="form-group">
+                        <label>Pilih Bagian yang Ingin Diubah</label>
+                        <select class="form-control" id="sectionSelect" onchange="loadCurrentContent()">
+                            <option value="heroTitle">Teks Hero (Header Atas)</option>
+                            <option value="heroDesc">Deskripsi Hero</option>
+                            <option value="aboutTitle">Judul "Tentang Kami"</option>
+                            <option value="aboutDesc">Isi "Tentang Kami"</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Isi Konten Baru</label>
+                        <textarea class="form-control" id="contentInput"></textarea>
+                    </div>
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="loadCurrentContent()">Reset</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                    </div>
+                    <div id="successMsg" style="display: none; color: var(--success); margin-top: 15px; font-weight: 500; text-align: right;">
+                        <i class="fas fa-check-circle"></i> Berhasil disimpan! Cek Landing Page.
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============ PANEL: KELOLA PRODUK ============ -->
+        <div class="admin-panel" id="panel-produk">
+            <div class="card" style="max-width: 800px;">
+                <div class="card-header"><h3><i class="fas fa-box-open"></i> Kelola Produk</h3></div>
+                <form id="productForm" onsubmit="saveProduct(event)">
+                    <input type="hidden" id="prodEditId" value="">
+                    <div class="form-group">
+                        <label>Nama Produk</label>
+                        <input type="text" class="form-control" id="prodName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi Singkat</label>
+                        <textarea class="form-control" id="prodDesc" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Harga (sementara / estimasi, boleh diubah kapan saja)</label>
+                        <input type="text" class="form-control" id="prodPrice" placeholder="Contoh: Mulai dari Rp 150.000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Link Foto Produk (Cloudflare/Cloudinary)</label>
+                        <input type="url" class="form-control" id="prodImage" placeholder="https://..." required>
+                    </div>
+                    <div style="text-align: right; margin-top: 15px;">
+                        <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetProductForm()">Batal Edit</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Produk</button>
+                    </div>
+                </form>
+                <div id="productListWrap" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <div id="productList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PANEL: KELOLA VIDEO ============ -->
+        <div class="admin-panel" id="panel-video" style="display:none;">
+            <div class="card" style="max-width: 800px;">
+                <div class="card-header"><h3><i class="fas fa-video"></i> Kelola Video Konten</h3></div>
+                <form id="videoForm" onsubmit="saveVideo(event)">
+                    <input type="hidden" id="vidEditId" value="">
+                    <div class="form-group">
+                        <label>Link Video (Cloudflare Stream/R2)</label>
+                        <input type="url" class="form-control" id="vidUrl" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Caption (opsional)</label>
+                        <input type="text" class="form-control" id="vidCaption" placeholder="Contoh: Proses rangkai buket wisuda">
+                    </div>
+                    <div style="text-align: right; margin-top: 15px;">
+                        <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetVideoForm()">Batal Edit</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Video</button>
+                    </div>
+                </form>
+                <div id="videoListWrap" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <div id="videoList"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/js_admin_panel.js"></script>
 </body>
 </html>
