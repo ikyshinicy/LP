@@ -87,8 +87,13 @@
                     <input type="text" class="form-control" id="prodPrice" placeholder="Contoh: Mulai dari Rp 150.000" required>
                 </div>
                 <div class="form-group">
-                    <label>Link Foto Produk (Cloudflare/Cloudinary)</label>
+                    <label>Link Foto Produk (Cloudflare R2)</label>
                     <input type="url" class="form-control" id="prodImage" placeholder="https://..." required>
+                    <div style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <input type="file" id="prodImageFile" accept="image/*" style="font-size:0.85rem; max-width:220px;">
+                        <button type="button" class="btn" style="background:#e0e0e0; color:#333; padding:6px 14px; font-size:0.85rem;" onclick="uploadAsset('prodImageFile','prodImage','prodImageStatus')"><i class="fas fa-upload"></i> Upload ke R2</button>
+                        <span id="prodImageStatus" style="font-size:0.8rem;"></span>
+                    </div>
                 </div>
                 <div style="text-align: right; margin-top: 15px;">
                     <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetProductForm()">Batal Edit</button>
@@ -106,8 +111,13 @@
             <form id="videoForm" onsubmit="saveVideo(event)">
                 <input type="hidden" id="vidEditId" value="">
                 <div class="form-group">
-                    <label>Link Video (Cloudflare Stream/R2)</label>
+                    <label>Link Video (Cloudflare R2)</label>
                     <input type="url" class="form-control" id="vidUrl" placeholder="https://..." required>
+                    <div style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <input type="file" id="vidUrlFile" accept="video/*" style="font-size:0.85rem; max-width:220px;">
+                        <button type="button" class="btn" style="background:#e0e0e0; color:#333; padding:6px 14px; font-size:0.85rem;" onclick="uploadAsset('vidUrlFile','vidUrl','vidUrlStatus')"><i class="fas fa-upload"></i> Upload ke R2</button>
+                        <span id="vidUrlStatus" style="font-size:0.8rem;"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Caption (opsional)</label>
@@ -141,8 +151,13 @@
                     <textarea class="form-control" id="teamDesc" placeholder="Ceritakan singkat tentang anggota ini"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Link Foto (Cloudflare/Cloudinary)</label>
+                    <label>Link Foto (Cloudflare R2)</label>
                     <input type="url" class="form-control" id="teamPhoto" placeholder="https://..." required>
+                    <div style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <input type="file" id="teamPhotoFile" accept="image/*" style="font-size:0.85rem; max-width:220px;">
+                        <button type="button" class="btn" style="background:#e0e0e0; color:#333; padding:6px 14px; font-size:0.85rem;" onclick="uploadAsset('teamPhotoFile','teamPhoto','teamPhotoStatus')"><i class="fas fa-upload"></i> Upload ke R2</button>
+                        <span id="teamPhotoStatus" style="font-size:0.8rem;"></span>
+                    </div>
                 </div>
                 <div style="text-align: right; margin-top: 15px;">
                     <button type="button" class="btn" style="background: #e0e0e0; color: #333; margin-right: 10px;" onclick="resetTeamForm()">Batal Edit</button>
